@@ -14,8 +14,11 @@
         <div class="space-y-8">
             @foreach ($directorates as $directorate)
                 <section class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                    <header class="bg-navy px-6 py-4">
+                    <header class="flex flex-wrap items-center justify-between gap-3 bg-navy px-6 py-4">
                         <h2 class="font-bold text-white">{{ $directorate->name }}</h2>
+                        @foreach ($directorate->positions as $position)
+                            <x-core::holder :assignment="$position->currentAssignment" class="text-sm font-medium !text-paljaya-100" />
+                        @endforeach
                     </header>
                     <div class="grid gap-6 p-6 sm:grid-cols-2 lg:grid-cols-3">
                         @foreach ($directorate->divisions as $division)
@@ -25,12 +28,27 @@
                                     · {{ $division->code }}
                                 </p>
                                 <h3 class="mt-1 font-semibold text-slate-800">{{ $division->name }}</h3>
+
+                                @foreach ($division->positions as $position)
+                                    <p class="mt-1 text-sm">
+                                        <x-core::holder :assignment="$position->currentAssignment" />
+                                        @if ($division->positions->count() > 1)
+                                            <span class="text-xs text-slate-400">— {{ $position->name }}</span>
+                                        @endif
+                                    </p>
+                                @endforeach
+
                                 @if ($division->departments->isNotEmpty())
-                                    <ul class="mt-3 space-y-1.5 border-t border-slate-100 pt-3">
+                                    <ul class="mt-3 space-y-2 border-t border-slate-100 pt-3">
                                         @foreach ($division->departments as $department)
-                                            <li class="flex items-start gap-2 text-sm text-slate-600">
+                                            <li class="flex items-start gap-2 text-sm">
                                                 <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-paljaya-300"></span>
-                                                {{ $department->name }}
+                                                <span>
+                                                    <span class="text-slate-700">{{ $department->name }}</span>
+                                                    @foreach ($department->positions as $position)
+                                                        <x-core::holder :assignment="$position->currentAssignment" class="block text-xs text-slate-500" />
+                                                    @endforeach
+                                                </span>
                                             </li>
                                         @endforeach
                                     </ul>

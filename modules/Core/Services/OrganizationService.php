@@ -22,8 +22,14 @@ class OrganizationService
         return Directorate::query()
             ->where('is_active', true)
             ->with([
+                'positions' => fn ($q) => $q->where('is_active', true),
+                'positions.currentAssignment.employee',
                 'divisions' => fn ($q) => $q->where('is_active', true),
+                'divisions.positions' => fn ($q) => $q->where('is_active', true),
+                'divisions.positions.currentAssignment.employee',
                 'divisions.departments' => fn ($q) => $q->where('is_active', true),
+                'divisions.departments.positions' => fn ($q) => $q->where('is_active', true),
+                'divisions.departments.positions.currentAssignment.employee',
             ])
             ->orderBy('sort_order')
             ->get();

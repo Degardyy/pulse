@@ -4,6 +4,7 @@ namespace Modules\Core\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -26,6 +27,7 @@ class User extends Authenticatable
         'auth_provider',
         'provider_id',
         'is_active',
+        'employee_id',
     ];
 
     /**
@@ -51,6 +53,12 @@ class User extends Authenticatable
             'is_active' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    /** @return BelongsTo<Employee, $this> */
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     protected static function newFactory(): UserFactory

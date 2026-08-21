@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Core\Http\Controllers\Auth\LoginController;
 use Modules\Core\Http\Controllers\DashboardController;
+use Modules\Core\Http\Controllers\EmployeeController;
 use Modules\Core\Http\Controllers\LandingController;
 use Modules\Core\Http\Controllers\OrganizationController;
 
@@ -18,4 +19,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', DashboardController::class)->name('core.dashboard');
     Route::get('/organization', [OrganizationController::class, 'index'])->name('core.organization.index');
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('core.employees.index');
 });

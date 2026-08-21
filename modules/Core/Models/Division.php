@@ -33,4 +33,10 @@ class Division extends Model
     {
         return $this->hasMany(Department::class)->orderBy('sort_order');
     }
+
+    /** @return HasMany<Position, $this> */
+    public function positions(): HasMany
+    {
+        return $this->hasMany(Position::class)->orderBy('sort_order');
+    }
 }

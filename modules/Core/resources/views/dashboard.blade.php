@@ -7,7 +7,7 @@
             <p class="mt-1 text-sm text-slate-500">Ruang kerja digital Perumda Paljaya</p>
         </div>
 
-        <div class="grid gap-6 sm:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <p class="text-sm font-medium text-slate-500">Direktorat</p>
                 <p class="mt-2 text-3xl font-bold text-paljaya-500">{{ $counts['directorates'] }}</p>
@@ -20,6 +20,11 @@
                 <p class="text-sm font-medium text-slate-500">Department</p>
                 <p class="mt-2 text-3xl font-bold text-paljaya-500">{{ $counts['departments'] }}</p>
             </div>
+            <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <p class="text-sm font-medium text-slate-500">Pejabat Struktural</p>
+                <p class="mt-2 text-3xl font-bold text-paljaya-500">{{ $employeeCounts['employees'] }}</p>
+                <p class="mt-1 text-xs text-slate-400">{{ $employeeCounts['vacant'] }} posisi vacant</p>
+            </div>
         </div>
 
         <div class="mt-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -30,10 +35,11 @@
                     <p class="font-semibold text-slate-800 group-hover:text-paljaya-700">Struktur Organisasi</p>
                     <p class="mt-1 text-sm text-slate-500">Direktorat, division, dan department Perumda Paljaya</p>
                 </a>
-                <div class="rounded-lg border border-dashed border-slate-200 p-4 opacity-60">
-                    <p class="font-semibold text-slate-500">Employee &amp; User Management</p>
-                    <p class="mt-1 text-sm text-slate-400">Segera — iterasi berikutnya PULSE Core</p>
-                </div>
+                <a href="{{ route('core.employees.index') }}"
+                   class="group rounded-lg border border-slate-200 p-4 transition hover:border-paljaya-300 hover:bg-paljaya-50">
+                    <p class="font-semibold text-slate-800 group-hover:text-paljaya-700">Pegawai</p>
+                    <p class="mt-1 text-sm text-slate-500">Pejabat struktural dan jabatannya</p>
+                </a>
                 <div class="rounded-lg border border-dashed border-slate-200 p-4 opacity-60">
                     <p class="font-semibold text-slate-500">Division Portal</p>
                     <p class="mt-1 text-sm text-slate-400">Segera — Stage 3</p>

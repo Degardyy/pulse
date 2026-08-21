@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Core\Database\Seeders\OfficialsSeeder;
 use Modules\Core\Database\Seeders\OrganizationSeeder;
 use Modules\Core\Models\User;
 
@@ -11,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(OrganizationSeeder::class);
+        $this->call(OfficialsSeeder::class);
 
         // Initial administrator account. Override via env; ALWAYS change the
         // password after first login on any non-local environment.

@@ -21,4 +21,10 @@ class Directorate extends Model
     {
         return $this->hasMany(Division::class)->orderBy('sort_order');
     }
+
+    /** @return HasMany<Position, $this> */
+    public function positions(): HasMany
+    {
+        return $this->hasMany(Position::class)->orderBy('sort_order');
+    }
 }

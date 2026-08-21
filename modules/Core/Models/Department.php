@@ -4,6 +4,7 @@ namespace Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Department extends Model
 {
@@ -20,5 +21,11 @@ class Department extends Model
     public function division(): BelongsTo
     {
         return $this->belongsTo(Division::class);
+    }
+
+    /** @return HasMany<Position, $this> */
+    public function positions(): HasMany
+    {
+        return $this->hasMany(Position::class)->orderBy('sort_order');
     }
 }

@@ -19,8 +19,9 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 1. ✅ Authentication — hybrid-ready (ADR-006), login/logout, rate limit, tests
 2. ✅ Organization — Directorate → Division → Department, seeded struktur resmi
    1 Juli 2026 (Position menyusul bersama Employee)
-3. Employee & User Management (relasi user ↔ employee ↔ position; nama pejabat dari
-   bagan organisasi di-seed di sini)
+3. ✅ Employee & Position — 50 posisi struktural, 40 pejabat (7 Plt, 5 vacant) dari
+   bagan resmi; assignment ber-riwayat; link `users.employee_id`. (Pegawai staff dan
+   CRUD/User Management admin menyusul setelah RBAC.)
 4. Role & Permission (RBAC + scope Division/Department)
 5. Audit Trail (otomatis untuk semua mutasi penting)
 6. Notification (in-app; channel lain menyusul)
