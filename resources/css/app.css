@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../../modules/**/resources/views/**/*.blade.php';
+
+/*
+ * PULSE design tokens (ADR-003). Every module uses these — never raw hex values —
+ * so the whole workplace stays visually consistent and rebranding stays cheap.
+ */
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Paljaya Blue — primary brand/action color */
+    --color-paljaya-50: #eef7fd;
+    --color-paljaya-100: #d8ecfa;
+    --color-paljaya-200: #b6dcf5;
+    --color-paljaya-300: #7fc3ec;
+    --color-paljaya-400: #41a5e0;
+    --color-paljaya-500: #006eb6;
+    --color-paljaya-600: #005e9d;
+    --color-paljaya-700: #004d81;
+    --color-paljaya-800: #003f6a;
+    --color-paljaya-900: #163a5f;
+    --color-paljaya-950: #002060;
+
+    /* Semantic aliases */
+    --color-navy: #163a5f;
+    --color-deep: #002060;
+}
