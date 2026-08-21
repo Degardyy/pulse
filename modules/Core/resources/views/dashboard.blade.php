@@ -40,6 +40,13 @@
                     <p class="font-semibold text-slate-800 group-hover:text-paljaya-700">Pegawai</p>
                     <p class="mt-1 text-sm text-slate-500">Pejabat struktural dan jabatannya</p>
                 </a>
+                @can('viewAny', \Modules\Core\Models\User::class)
+                    <a href="{{ route('core.admin.users.index') }}"
+                       class="group rounded-lg border border-slate-200 p-4 transition hover:border-paljaya-300 hover:bg-paljaya-50">
+                        <p class="font-semibold text-slate-800 group-hover:text-paljaya-700">Pengguna</p>
+                        <p class="mt-1 text-sm text-slate-500">Administrasi akun PULSE (Department IT)</p>
+                    </a>
+                @endcan
                 <div class="rounded-lg border border-dashed border-slate-200 p-4 opacity-60">
                     <p class="font-semibold text-slate-500">Division Portal</p>
                     <p class="mt-1 text-sm text-slate-400">Segera — Stage 3</p>

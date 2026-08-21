@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Modules\Core\Services\Access\PermissionRegistry;
 
 /**
  * Base provider for every PULSE module (see docs/architecture/decisions/ADR-002-module-system.md).
@@ -18,10 +19,30 @@ abstract class ModuleServiceProvider extends ServiceProvider
     /** Studly-case module name matching the directory under modules/. */
     protected string $moduleName;
 
+    /**
+     * Permissions this module declares (code => description), synced to the
+     * database by `pulse:sync-permissions` (ADR-007).
+     *
+     * @var array<string, string>
+     */
+    protected array $permissions = [];
+
+    /** @var list<class-string> Artisan commands this module provides. */
+    protected array $commands = [];
+
     public function boot(): void
     {
         $path = $this->modulePath();
         $namespace = $this->viewNamespace();
+
+        if ($this->permissions !== []) {
+            $this->app->make(PermissionRegistry::class)
+                ->register($this->viewNamespace(), $this->permissions);
+        }
+
+        if ($this->commands !== [] && $this->app->runningInConsole()) {
+            $this->commands($this->commands);
+        }
 
         if (is_dir("{$path}/Database/Migrations")) {
             $this->loadMigrationsFrom("{$path}/Database/Migrations");

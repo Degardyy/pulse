@@ -22,7 +22,9 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 3. ✅ Employee & Position — 50 posisi struktural, 40 pejabat (7 Plt, 5 vacant) dari
    bagan resmi; assignment ber-riwayat; link `users.employee_id`. (Pegawai staff dan
    CRUD/User Management admin menyusul setelah RBAC.)
-4. Role & Permission (RBAC + scope Division/Department)
+4. ✅ Role & Permission (ADR-007) — permission deklaratif per modul, grant role
+   ber-scope Division/Department, `AccessService` + Gate; User Management oleh
+   Department IT (list/create/edit, role, reset password, aktif/nonaktif)
 5. Audit Trail (otomatis untuk semua mutasi penting)
 6. Notification (in-app; channel lain menyusul)
 7. Document (upload, metadata, attach ke entity mana pun)

@@ -5,8 +5,10 @@ namespace Modules\Core\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Core\Services\Access\AccessService;
 
 class User extends Authenticatable
 {
@@ -59,6 +61,22 @@ class User extends Authenticatable
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Role grants; the pivot's division_id/department_id carry the grant scope.
+     *
+     * @return BelongsToMany<Role, $this>
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'core_role_user')
+            ->withPivot(['division_id', 'department_id']);
+    }
+
+    public function hasPermission(string $code, Division|Department|null $scope = null): bool
+    {
+        return app(AccessService::class)->allows($this, $code, $scope);
     }
 
     protected static function newFactory(): UserFactory

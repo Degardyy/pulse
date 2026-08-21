@@ -20,6 +20,9 @@ sampai reorganisasi nyata pertama (struktur saat ini di-soft-disable via `is_act
 Pertanyaan lanjutan untuk iterasi Employee: daftar Position di bawah level Department
 Head (staff level) dan data pegawai non-kepala.
 
+**Lanjutan (dijawab 2026-08-21)**: otoritas pengelolaan akun = **Department IT saja**
+(role User Administrator; ADR-007). Human Capital tidak mengelola akun.
+
 ## 3. Sumber Data Pegawai — *memblokir Stage 2 (Employee)*
 
 - **A. Input manual di PULSE** (PULSE = master data pegawai).

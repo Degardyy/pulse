@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Core\Http\Controllers\Admin\UserController;
 use Modules\Core\Http\Controllers\Auth\LoginController;
 use Modules\Core\Http\Controllers\DashboardController;
 use Modules\Core\Http\Controllers\EmployeeController;
@@ -20,4 +21,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('core.dashboard');
     Route::get('/organization', [OrganizationController::class, 'index'])->name('core.organization.index');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('core.employees.index');
+
+    Route::prefix('admin/users')->name('core.admin.users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::post('/{user}/reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
+        Route::post('/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('toggle-active');
+    });
 });

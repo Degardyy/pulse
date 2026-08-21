@@ -38,6 +38,12 @@
                            class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('core.employees.*') ? 'bg-paljaya-50 text-paljaya-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                             Pegawai
                         </a>
+                        @can('viewAny', \Modules\Core\Models\User::class)
+                            <a href="{{ route('core.admin.users.index') }}"
+                               class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs('core.admin.users.*') ? 'bg-paljaya-50 text-paljaya-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                                Pengguna
+                            </a>
+                        @endcan
                     </nav>
 
                     <div x-data="{ open: false }" class="relative shrink-0">
