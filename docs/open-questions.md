@@ -5,27 +5,20 @@ stage tertentu; Foundation (Stage 1) tidak terblokir oleh butir mana pun.
 
 > Format: konteks → opsi → rekomendasi arsitek. Keputusan final dicatat sebagai ADR.
 
-## 1. Sumber Autentikasi — *memblokir Stage 2 (Authentication)*
+## 1. Sumber Autentikasi — ✅ DIJAWAB (2026-08-21)
 
-Bagaimana pegawai login?
+**Keputusan: C (Hybrid)** — akun lokal sekarang, SSO menyusul. Diimplementasikan pada
+Stage 2 Iterasi 1; lihat [ADR-006](architecture/decisions/ADR-006-hybrid-authentication.md).
+Pertanyaan lanjutan (belum mendesak): provider SSO mana yang dipakai Paljaya kelak.
 
-- **A. Akun lokal PULSE** (email/username + password, dikelola admin PULSE) — paling
-  sederhana, tanpa dependensi eksternal.
-- **B. Integrasi direktori existing** (Active Directory/LDAP/Google Workspace/M365 SSO) —
-  bila Paljaya sudah punya identitas terpusat.
-- **C. Hybrid** — lokal sekarang, SSO menyusul (dirancang agar kolom identitas siap).
+## 2. Struktur Organisasi Resmi — ✅ DIJAWAB (2026-08-21)
 
-**Rekomendasi**: C — mulai lokal, abstraksi login disiapkan agar SSO bisa ditambah tanpa
-migrasi ulang. Perlu konfirmasi: apakah Paljaya memiliki AD/SSO saat ini?
-
-## 2. Struktur Organisasi Resmi — *memblokir Stage 2 (Organization)*
-
-Butuh SK struktur organisasi terbaru: daftar lengkap Division, Department, dan Position,
-serta apakah ada level di antaranya (Sub-department? Seksi?). Juga: apakah struktur sering
-berubah sehingga perlu *effective date* (riwayat struktur)?
-
-**Rekomendasi**: model hirarki dengan effective date sejak awal bila reorganisasi pernah
-terjadi dalam 3 tahun terakhir; bila tidak, model sederhana dulu.
+Dokumen resmi "Struktur Organisasi (Bhs Inggris), 1 Juli 2026" diterima dan di-seed:
+3 direktorat, 11 division + unit Internal Audit, 34 department — lihat
+[core-organization.md](modules/core-organization.md). Effective-date history ditunda
+sampai reorganisasi nyata pertama (struktur saat ini di-soft-disable via `is_active`).
+Pertanyaan lanjutan untuk iterasi Employee: daftar Position di bawah level Department
+Head (staff level) dan data pegawai non-kepala.
 
 ## 3. Sumber Data Pegawai — *memblokir Stage 2 (Employee)*
 

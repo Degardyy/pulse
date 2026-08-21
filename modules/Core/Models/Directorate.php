@@ -1,0 +1,24 @@
+<?php
+
+namespace Modules\Core\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Directorate extends Model
+{
+    protected $table = 'core_directorates';
+
+    protected $fillable = ['code', 'name', 'sort_order', 'is_active'];
+
+    protected function casts(): array
+    {
+        return ['is_active' => 'boolean'];
+    }
+
+    /** @return HasMany<Division, $this> */
+    public function divisions(): HasMany
+    {
+        return $this->hasMany(Division::class)->orderBy('sort_order');
+    }
+}

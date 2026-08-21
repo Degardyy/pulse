@@ -31,3 +31,7 @@
     --color-navy: #163a5f;
     --color-deep: #002060;
 }
+
+[x-cloak] {
+    display: none !important;
+}

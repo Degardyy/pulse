@@ -17,12 +17,13 @@ modules/<Name>/
 ├── Policies/                             # authorization per model
 ├── routes/
 │   └── web.php                           # (opsional api.php)
+├── Database/                             # PascalCase agar PSR-4 valid (Modules\<Name>\Database\Seeders)
+│   ├── Migrations/
+│   └── Seeders/
 ├── resources/
 │   ├── views/                            # namespace view: <name>::
+│   │   └── components/                   # anonymous components: <x-<name>::...>
 │   └── lang/                             # namespace lang: <name>::
-├── database/
-│   ├── migrations/
-│   └── seeders/
 └── tests/                                # Feature & Unit tests modul
 ```
 

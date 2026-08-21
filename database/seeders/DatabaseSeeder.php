@@ -2,24 +2,27 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\Core\Database\Seeders\OrganizationSeeder;
+use Modules\Core\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(OrganizationSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Initial administrator account. Override via env; ALWAYS change the
+        // password after first login on any non-local environment.
+        User::updateOrCreate(
+            ['email' => env('PULSE_ADMIN_EMAIL', 'admin@paljaya.local')],
+            [
+                'name' => 'PULSE Administrator',
+                'password' => env('PULSE_ADMIN_PASSWORD', 'password'),
+                'auth_provider' => User::PROVIDER_LOCAL,
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ],
+        );
     }
 }

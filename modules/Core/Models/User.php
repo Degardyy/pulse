@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Core\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +12,8 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public const PROVIDER_LOCAL = 'local';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'auth_provider',
+        'provider_id',
+        'is_active',
     ];
 
     /**
@@ -43,7 +47,14 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
+            'is_active' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
     }
 }

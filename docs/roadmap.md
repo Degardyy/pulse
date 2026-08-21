@@ -12,13 +12,15 @@ Setiap stage selesai = teruji + terdokumentasi, baru lanjut.
 - [x] Dokumen arsitektur, ADR-001…005, open questions
 - [x] Foundation tests hijau
 
-## Stage 2 — PULSE Core
+## Stage 2 — PULSE Core (berjalan)
 
 Urutan sub-modul Core (masing-masing satu iterasi kecil):
 
-1. Authentication (login, session, password policy)
-2. Organization: Division → Department → Position
-3. Employee & User Management (relasi user ↔ employee ↔ position)
+1. ✅ Authentication — hybrid-ready (ADR-006), login/logout, rate limit, tests
+2. ✅ Organization — Directorate → Division → Department, seeded struktur resmi
+   1 Juli 2026 (Position menyusul bersama Employee)
+3. Employee & User Management (relasi user ↔ employee ↔ position; nama pejabat dari
+   bagan organisasi di-seed di sini)
 4. Role & Permission (RBAC + scope Division/Department)
 5. Audit Trail (otomatis untuk semua mutasi penting)
 6. Notification (in-app; channel lain menyusul)
@@ -27,8 +29,8 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 9. Dashboard & Reporting foundation (widget framework)
 10. AI Foundation *scaffold* (gateway + allowlist registry, tanpa provider dulu)
 
-> Prasyarat sebelum mulai Stage 2: jawaban open questions #1 (auth source) dan #2
-> (struktur organisasi resmi) — lihat `open-questions.md`.
+> Open questions #1 dan #2 sudah dijawab (lihat `open-questions.md`). Prasyarat iterasi
+> Workflow: open question #4 (contoh SOP approval).
 
 ## Stage 3 — One Division: Information Technology & Procurement
 

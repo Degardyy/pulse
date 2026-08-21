@@ -23,8 +23,8 @@ abstract class ModuleServiceProvider extends ServiceProvider
         $path = $this->modulePath();
         $namespace = $this->viewNamespace();
 
-        if (is_dir("{$path}/database/migrations")) {
-            $this->loadMigrationsFrom("{$path}/database/migrations");
+        if (is_dir("{$path}/Database/Migrations")) {
+            $this->loadMigrationsFrom("{$path}/Database/Migrations");
         }
 
         if (is_dir("{$path}/resources/views")) {

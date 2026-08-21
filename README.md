@@ -45,7 +45,10 @@ copy .env.example .env          # Linux/Mac: cp .env.example .env
 php artisan key:generate
 
 # 2. Buat database MySQL bernama `pulse` (HeidiSQL/phpMyAdmin), lalu:
-php artisan migrate
+php artisan migrate --seed
+# Seeder mengisi struktur organisasi resmi + akun admin awal:
+#   admin@paljaya.local / password  (override via PULSE_ADMIN_EMAIL / PULSE_ADMIN_PASSWORD;
+#   WAJIB diganti di environment non-lokal)
 
 # 3. Frontend:
 npm install
