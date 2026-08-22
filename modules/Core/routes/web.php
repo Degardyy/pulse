@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Core\Http\Controllers\Admin\AuditLogController;
 use Modules\Core\Http\Controllers\Admin\UserController;
+use Modules\Core\Http\Controllers\ApprovalController;
 use Modules\Core\Http\Controllers\Auth\LoginController;
 use Modules\Core\Http\Controllers\DashboardController;
 use Modules\Core\Http\Controllers\DocumentController;
@@ -24,6 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('core.dashboard');
     Route::get('/organization', [OrganizationController::class, 'index'])->name('core.organization.index');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('core.employees.index');
+
+    Route::get('/approvals', [ApprovalController::class, 'index'])->name('core.approvals.index');
+    Route::post('/approvals/{instance}/approve', [ApprovalController::class, 'approve'])->name('core.approvals.approve');
+    Route::post('/approvals/{instance}/reject', [ApprovalController::class, 'reject'])->name('core.approvals.reject');
 
     Route::get('/documents', [DocumentController::class, 'index'])->name('core.documents.index');
     Route::get('/documents/create', [DocumentController::class, 'create'])->name('core.documents.create');

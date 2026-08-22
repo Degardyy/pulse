@@ -68,7 +68,9 @@ class DocumentController
         );
 
         return redirect()->route('core.documents.index')
-            ->with('status', "Dokumen \"{$document->title}\" dibagikan ke {$document->visibilityLabel()}.");
+            ->with('status', $document->status === Document::STATUS_PENDING_APPROVAL
+                ? "Dokumen \"{$document->title}\" menunggu persetujuan publikasi Corporate Secretary."
+                : "Dokumen \"{$document->title}\" dibagikan ke {$document->visibilityLabel()}.");
     }
 
     public function download(Document $document): StreamedResponse

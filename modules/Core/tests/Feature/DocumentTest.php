@@ -9,6 +9,7 @@ use Illuminate\Testing\TestResponse;
 use Modules\Core\Database\Seeders\OfficialsSeeder;
 use Modules\Core\Database\Seeders\OrganizationSeeder;
 use Modules\Core\Database\Seeders\RbacSeeder;
+use Modules\Core\Database\Seeders\WorkflowSeeder;
 use Modules\Core\Models\Department;
 use Modules\Core\Models\Division;
 use Modules\Core\Models\Document;
@@ -101,12 +102,20 @@ class DocumentTest extends TestCase
 
     public function test_paljaya_document_is_visible_to_everyone_but_needs_permission_to_publish(): void
     {
+        $this->seed(WorkflowSeeder::class);
         $indriany = $this->userFor('Indriany');
+        $unrelated = $this->userFor('Alvin Eka M.');
 
-        // Without org-publish permission → 403.
+        // Without org-publish permission the request goes to approval
+        // (ADR-009) — accepted, but pending and hidden from others.
         $this->upload($indriany, [
             'visibility' => Document::VISIBILITY_PALJAYA, 'department_id' => null,
-        ])->assertForbidden();
+        ])->assertRedirect(route('core.documents.index'));
+
+        $pending = Document::firstOrFail();
+        $this->assertSame(Document::STATUS_PENDING_APPROVAL, $pending->status);
+        $this->actingAs($unrelated)->get("/documents/{$pending->id}/download")->assertForbidden();
+        $pending->delete();
 
         // Administrator (super) publishes org-wide.
         $admin = User::factory()->create();
@@ -118,7 +127,6 @@ class DocumentTest extends TestCase
         ])->assertRedirect(route('core.documents.index'));
 
         $document = Document::firstOrFail();
-        $unrelated = $this->userFor('Alvin Eka M.');
 
         $this->actingAs($unrelated)->get("/documents/{$document->id}/download")->assertOk();
         $this->actingAs($unrelated)->get('/documents')->assertSee('Pengumuman Direksi');

@@ -5,6 +5,7 @@ namespace Modules\Core\Policies;
 use Modules\Core\Models\Department;
 use Modules\Core\Models\Document;
 use Modules\Core\Models\User;
+use Modules\Core\Services\Workflow\WorkflowService;
 
 class DocumentPolicy
 {
@@ -13,6 +14,13 @@ class DocumentPolicy
     {
         if ($document->uploaded_by === $user->id || $user->hasPermission('core.documents.manage')) {
             return true;
+        }
+
+        // Awaiting/denied publication: readable only by uploader (above),
+        // managers (above), and the current workflow approver (must review it).
+        if ($document->status !== Document::STATUS_PUBLISHED) {
+            return $document->status === Document::STATUS_PENDING_APPROVAL
+                && app(WorkflowService::class)->isApproverFor($user, $document);
         }
 
         $units = $user->organizationUnitIds();
@@ -47,7 +55,11 @@ class DocumentPolicy
         $units = $user->organizationUnitIds();
 
         return match ($visibility) {
-            Document::VISIBILITY_PALJAYA => $user->hasPermission('core.documents.publish-org'),
+            // Anyone with an org unit may REQUEST org-wide publication (it
+            // then goes through approval, ADR-009); the publish-org permission
+            // publishes directly.
+            Document::VISIBILITY_PALJAYA => $user->hasPermission('core.documents.publish-org')
+                || $units['departments'] !== [] || $units['divisions'] !== [],
             Document::VISIBILITY_DIVISION => in_array($divisionId, $units['divisions'], true),
             Document::VISIBILITY_DEPARTMENT => in_array($departmentId, $units['departments'], true)
                 || ($departmentId !== null

@@ -17,11 +17,17 @@ class Document extends Model
 
     public const VISIBILITY_DEPARTMENT = 'department';
 
+    public const STATUS_PUBLISHED = 'published';
+
+    public const STATUS_PENDING_APPROVAL = 'pending_approval';
+
+    public const STATUS_REJECTED = 'rejected';
+
     protected $table = 'core_documents';
 
     protected $fillable = [
         'title', 'description', 'category', 'file_path', 'file_name', 'mime_type',
-        'size', 'visibility', 'division_id', 'department_id', 'uploaded_by',
+        'size', 'visibility', 'status', 'division_id', 'department_id', 'uploaded_by',
     ];
 
     /** @return BelongsTo<User, $this> */
@@ -64,12 +70,17 @@ class Document extends Model
             : Department::whereIn('division_id', $units['division_leads'])->pluck('id')->all();
 
         return $query->where(function (Builder $q) use ($units, $ledDepartmentIds, $user) {
-            $q->where('visibility', self::VISIBILITY_PALJAYA)
-                ->orWhere(fn (Builder $q) => $q->where('visibility', self::VISIBILITY_DIVISION)
-                    ->whereIn('division_id', $units['divisions'] ?: [-1]))
-                ->orWhere(fn (Builder $q) => $q->where('visibility', self::VISIBILITY_DEPARTMENT)
-                    ->whereIn('department_id', array_merge($units['departments'], $ledDepartmentIds) ?: [-1]))
-                ->orWhere('uploaded_by', $user->id);
+            // Non-published documents are only listed for their uploader.
+            $q->where(function (Builder $q) use ($units, $ledDepartmentIds) {
+                $q->where('status', self::STATUS_PUBLISHED)
+                    ->where(function (Builder $q) use ($units, $ledDepartmentIds) {
+                        $q->where('visibility', self::VISIBILITY_PALJAYA)
+                            ->orWhere(fn (Builder $q) => $q->where('visibility', self::VISIBILITY_DIVISION)
+                                ->whereIn('division_id', $units['divisions'] ?: [-1]))
+                            ->orWhere(fn (Builder $q) => $q->where('visibility', self::VISIBILITY_DEPARTMENT)
+                                ->whereIn('department_id', array_merge($units['departments'], $ledDepartmentIds) ?: [-1]));
+                    });
+            })->orWhere('uploaded_by', $user->id);
         });
     }
 

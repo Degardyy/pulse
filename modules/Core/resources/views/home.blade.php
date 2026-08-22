@@ -15,7 +15,7 @@
             <h2 id="attention-label" class="text-label mb-3">Perhatian</h2>
             <div class="divide-y divide-line rounded-xl bg-surface ring-1 ring-line">
                 @foreach ($attention as $item)
-                    <a href="#" class="focusable group flex items-center gap-3.5 px-4 py-3 transition-colors duration-150 first:rounded-t-xl last:rounded-b-xl hover:bg-surface-2/60">
+                    <a href="{{ $item['url'] ?? '#' }}" class="focusable group flex items-center gap-3.5 px-4 py-3 transition-colors duration-150 first:rounded-t-xl last:rounded-b-xl hover:bg-surface-2/60">
                         <span @class([
                             'flex size-7 items-center justify-center rounded-lg',
                             'bg-accent-soft text-accent' => $item['tone'] === 'accent',

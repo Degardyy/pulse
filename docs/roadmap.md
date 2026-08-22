@@ -32,7 +32,9 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 7. ✅ Document — lingkup pembaca department/division/seluruh Paljaya
    (keputusan pemilik produk), storage privat + unduhan ter-otorisasi,
    notifikasi audiens, izin publikasi org-wide (attach polimorfik menyusul)
-8. Workflow (definisi approval berbasis konfigurasi)
+8. ✅ Workflow — engine approval berbasis konfigurasi (ADR-009), approver dibekukan
+   per instance, event-driven; use case pertama: publikasi dokumen org-wide via
+   persetujuan Corporate Secretary (asumsi — menunggu SOP resmi)
 9. Dashboard & Reporting foundation (widget framework)
 10. AI Foundation *scaffold* (gateway + allowlist registry, tanpa provider dulu)
 

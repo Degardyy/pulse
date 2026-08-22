@@ -50,6 +50,11 @@
                                 {{ $document->title }}
                             </a>
                             <p class="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-ink-3">
+                                @if ($document->status === \Modules\Core\Models\Document::STATUS_PENDING_APPROVAL)
+                                    <span class="rounded bg-warning-soft px-1.5 py-0.5 text-[10px] font-semibold uppercase text-warning">Menunggu persetujuan</span>
+                                @elseif ($document->status === \Modules\Core\Models\Document::STATUS_REJECTED)
+                                    <span class="rounded bg-danger-soft px-1.5 py-0.5 text-[10px] font-semibold uppercase text-danger">Ditolak</span>
+                                @endif
                                 <span @class([
                                     'font-medium',
                                     'text-accent' => $document->visibility === \Modules\Core\Models\Document::VISIBILITY_PALJAYA,

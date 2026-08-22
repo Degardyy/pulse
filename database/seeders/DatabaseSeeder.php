@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Modules\Core\Database\Seeders\OfficialsSeeder;
 use Modules\Core\Database\Seeders\OrganizationSeeder;
 use Modules\Core\Database\Seeders\RbacSeeder;
+use Modules\Core\Database\Seeders\WorkflowSeeder;
 use Modules\Core\Models\Role;
 use Modules\Core\Models\User;
 use Modules\Core\Services\Audit\AuditService;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             $this->call(OrganizationSeeder::class);
             $this->call(OfficialsSeeder::class);
             $this->call(RbacSeeder::class);
+            $this->call(WorkflowSeeder::class);
 
             // Initial administrator account. Override via env; ALWAYS change
             // the password after first login on any non-local environment.

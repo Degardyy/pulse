@@ -3,8 +3,12 @@
 namespace Modules\Core\Providers;
 
 use App\Modules\ModuleServiceProvider;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Modules\Core\Console\Commands\SyncPermissionsCommand;
+use Modules\Core\Events\WorkflowApproved;
+use Modules\Core\Events\WorkflowRejected;
+use Modules\Core\Listeners\HandleDocumentPublishDecision;
 use Modules\Core\Models\Department;
 use Modules\Core\Models\Division;
 use Modules\Core\Models\Document;
@@ -42,6 +46,9 @@ class CoreServiceProvider extends ModuleServiceProvider
 
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Document::class, DocumentPolicy::class);
+
+        Event::listen(WorkflowApproved::class, [HandleDocumentPublishDecision::class, 'handleApproved']);
+        Event::listen(WorkflowRejected::class, [HandleDocumentPublishDecision::class, 'handleRejected']);
 
         // Route every declared permission code through the AccessService
         // (ADR-007). Unknown abilities fall through to policies/gates.

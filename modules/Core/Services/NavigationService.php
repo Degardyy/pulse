@@ -23,6 +23,7 @@ class NavigationService
                 'items' => [
                     ['label' => 'Beranda', 'icon' => 'home', 'route' => 'core.dashboard', 'active' => 'core.dashboard', 'keywords' => 'home beranda workspace'],
                     ['label' => 'Dokumen', 'icon' => 'document', 'route' => 'core.documents.index', 'active' => 'core.documents.*', 'keywords' => 'dokumen file berkas unggah dokumen sk surat'],
+                    ['label' => 'Persetujuan', 'icon' => 'check-circle', 'route' => 'core.approvals.index', 'active' => 'core.approvals.*', 'keywords' => 'persetujuan approval workflow setuju tolak permintaan'],
                 ],
             ],
             [

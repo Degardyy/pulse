@@ -8,6 +8,7 @@ use Modules\Core\Models\PositionAssignment;
 use Modules\Core\Services\EmployeeService;
 use Modules\Core\Services\NavigationService;
 use Modules\Core\Services\OrganizationService;
+use Modules\Core\Services\Workflow\WorkflowService;
 
 class DashboardController extends Controller
 {
@@ -15,6 +16,7 @@ class DashboardController extends Controller
         private readonly OrganizationService $organization,
         private readonly EmployeeService $employees,
         private readonly NavigationService $navigation,
+        private readonly WorkflowService $workflow,
     ) {}
 
     public function __invoke(): View
@@ -47,15 +49,16 @@ class DashboardController extends Controller
             'orgCounts' => $this->organization->counts(),
             'employeeCounts' => $this->employees->counts(),
 
-            // ── Demonstration fixtures ────────────────────────────────────
-            // Attention, tasks, recents, and the AI brief become live when
-            // their modules land (Workflow, Helpdesk, Budget, AI Foundation).
-            // They exist now to establish the Home visual language (Phase 1).
-            'attention' => [
-                ['icon' => 'check-circle', 'tone' => 'accent', 'text' => '3 persetujuan menunggu Anda'],
-                ['icon' => 'clock', 'tone' => 'warning', 'text' => '5 tugas jatuh tempo hari ini'],
-                ['icon' => 'alert', 'tone' => 'danger', 'text' => '1 peringatan anggaran perlu ditinjau'],
-            ],
+            // Attention: the approvals item is LIVE (workflow engine); the
+            // rest remain demonstration fixtures until their modules land
+            // (Helpdesk tasks, Budget alerts).
+            'attention' => array_values(array_filter([
+                ($approvals = $this->workflow->pendingFor($user)->count()) > 0
+                    ? ['icon' => 'check-circle', 'tone' => 'accent', 'text' => "{$approvals} persetujuan menunggu Anda", 'url' => route('core.approvals.index')]
+                    : null,
+                ['icon' => 'clock', 'tone' => 'warning', 'text' => '5 tugas jatuh tempo hari ini', 'url' => null],
+                ['icon' => 'alert', 'tone' => 'danger', 'text' => '1 peringatan anggaran perlu ditinjau', 'url' => null],
+            ])),
             'tasks' => [
                 ['label' => 'Tinjau dokumen pengadaan server', 'due' => 'Hari ini', 'done' => false],
                 ['label' => 'Setujui permintaan akses aplikasi', 'due' => 'Hari ini', 'done' => false],
