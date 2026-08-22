@@ -35,6 +35,15 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 > Open questions #1 dan #2 sudah dijawab (lihat `open-questions.md`). Prasyarat iterasi
 > Workflow: open question #4 (contoh SOP approval).
 
+## UI Phase 1 — Design System + Application Shell ✅ (2026-08-23)
+
+- [x] Design language "Calm Enterprise" (ADR-008) + semantic tokens light/dark
+- [x] Application shell: sidebar collapsible, topbar, command palette (Ctrl+K),
+      notification center, AI entry point, bottom nav mobile
+- [x] UI primitives (`core::ui.*`) + `NavigationService` (satu sumber navigasi)
+- [x] Home / My Workspace (fixture demonstrasi untuk modul yang belum ada)
+- [x] Seluruh halaman existing dimigrasikan; Inter self-host (tanpa CDN)
+
 ## Stage 3 — One Division: Information Technology & Procurement
 
 Division Portal shell: navigasi per-division, dashboard division kosong yang siap diisi

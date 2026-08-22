@@ -1,3 +1,4 @@
+@import '@fontsource-variable/inter';
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -7,31 +8,152 @@
 @source '../../modules/**/resources/views/**/*.blade.php';
 
 /*
- * PULSE design tokens (ADR-003). Every module uses these — never raw hex values —
- * so the whole workplace stays visually consistent and rebranding stays cheap.
+ * ============================================================
+ * PULSE Design System — "Calm Enterprise" (ADR-008)
+ * ============================================================
+ * Every color in the product flows through the semantic tokens
+ * below. Components never reference raw hex values — switching
+ * theme (light/dark) only redefines the tokens.
+ *
+ * Semantic roles:
+ *   bg        page background            ink    primary text
+ *   surface   raised content plane       ink-2  secondary text
+ *   surface-2 hover / subtle fill        ink-3  muted text & labels
+ *   line      hairline separators        accent Paljaya Blue (actions)
  */
-@theme {
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* Paljaya Blue — primary brand/action color */
-    --color-paljaya-50: #eef7fd;
-    --color-paljaya-100: #d8ecfa;
-    --color-paljaya-200: #b6dcf5;
-    --color-paljaya-300: #7fc3ec;
-    --color-paljaya-400: #41a5e0;
-    --color-paljaya-500: #006eb6;
-    --color-paljaya-600: #005e9d;
-    --color-paljaya-700: #004d81;
-    --color-paljaya-800: #003f6a;
-    --color-paljaya-900: #163a5f;
-    --color-paljaya-950: #002060;
+:root {
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --surface-2: #eff1f5;
+    --ink: #17233a;
+    --ink-2: #4f5d76;
+    --ink-3: #8793a8;
+    --line: #e6e9ef;
+    --line-2: #d7dce5;
 
-    /* Semantic aliases */
-    --color-navy: #163a5f;
-    --color-deep: #002060;
+    --accent: #006eb6;
+    --accent-strong: #005e9d;
+    --accent-soft: #e9f3fa;
+    --accent-ink: #005089;
+
+    --success: #177e56;
+    --success-soft: #e5f5ee;
+    --warning: #9a6a00;
+    --warning-soft: #fbf2dd;
+    --danger: #bf3b3b;
+    --danger-soft: #fcebeb;
+
+    --scrim: rgb(23 35 58 / 0.40);
 }
+
+.dark {
+    --bg: #0d1220;
+    --surface: #151b2c;
+    --surface-2: #1d2437;
+    --ink: #e8edf6;
+    --ink-2: #a9b4c9;
+    --ink-3: #71809b;
+    --line: #232c42;
+    --line-2: #2f3a55;
+
+    --accent: #4aa3e0;
+    --accent-strong: #6db6e8;
+    --accent-soft: #14304a;
+    --accent-ink: #9fd0f0;
+
+    --success: #46c393;
+    --success-soft: #11301f;
+    --warning: #e0b054;
+    --warning-soft: #33270e;
+    --danger: #e57373;
+    --danger-soft: #3a1a1a;
+
+    --scrim: rgb(4 8 16 / 0.60);
+}
+
+@theme inline {
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+    --color-bg: var(--bg);
+    --color-surface: var(--surface);
+    --color-surface-2: var(--surface-2);
+    --color-ink: var(--ink);
+    --color-ink-2: var(--ink-2);
+    --color-ink-3: var(--ink-3);
+    --color-line: var(--line);
+    --color-line-2: var(--line-2);
+
+    --color-accent: var(--accent);
+    --color-accent-strong: var(--accent-strong);
+    --color-accent-soft: var(--accent-soft);
+    --color-accent-ink: var(--accent-ink);
+
+    --color-success: var(--success);
+    --color-success-soft: var(--success-soft);
+    --color-warning: var(--warning);
+    --color-warning-soft: var(--warning-soft);
+    --color-danger: var(--danger);
+    --color-danger-soft: var(--danger-soft);
+
+    --color-scrim: var(--scrim);
+
+    /* Motion standard: 150–250ms, ease-out. */
+    --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark mode is class-driven (user/system preference resolved in JS). */
+@custom-variant dark (&:where(.dark, .dark *));
 
 [x-cloak] {
     display: none !important;
+}
+
+/* Typographic rhythm ---------------------------------------- */
+
+body {
+    font-feature-settings: 'cv02', 'cv03', 'cv11';
+    -webkit-font-smoothing: antialiased;
+}
+
+@utility text-display {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+}
+
+@utility text-title {
+    font-size: 1.0625rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+}
+
+/* Eyebrow section labels — the primary grouping device (few boxes). */
+@utility text-label {
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+/* Interactive states ---------------------------------------- */
+
+@utility focusable {
+    &:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+}
+
+/* Scrollbars that stay quiet */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
 }

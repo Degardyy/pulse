@@ -90,6 +90,7 @@ class AuthenticationTest extends TestCase
 
         $this->actingAs($user)->get('/dashboard')
             ->assertOk()
-            ->assertSee('Selamat datang, Budi Santoso');
+            ->assertSee('Budi')
+            ->assertSee('Selamat');
     }
 }

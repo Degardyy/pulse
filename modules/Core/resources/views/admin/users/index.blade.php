@@ -1,94 +1,92 @@
 <x-core::layouts.app :title="'Pengguna'">
-    <div class="mx-auto max-w-6xl px-6 py-10">
-        <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight text-deep">Pengguna</h1>
-                <p class="mt-1 text-sm text-slate-500">Administrasi akun PULSE — dikelola Department Information Technology</p>
-            </div>
-            @can('create', \Modules\Core\Models\User::class)
-                <a href="{{ route('core.admin.users.create') }}"
-                   class="rounded-lg bg-paljaya-500 px-4 py-2 text-sm font-semibold text-white hover:bg-paljaya-600">
-                    + Akun Baru
-                </a>
-            @endcan
-        </div>
+    <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-10">
+        <x-core::ui.page-header title="Pengguna" description="Administrasi akun PULSE — dikelola Department Information Technology">
+            <x-slot:actions>
+                @can('create', \Modules\Core\Models\User::class)
+                    <a href="{{ route('core.admin.users.create') }}"
+                       class="focusable inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors duration-150 hover:bg-accent-strong">
+                        <x-core::ui.icon name="plus" class="size-4" />
+                        Akun baru
+                    </a>
+                @endcan
+            </x-slot:actions>
+        </x-core::ui.page-header>
 
         @if (session('status'))
-            <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            <div class="mb-4 flex items-center gap-2.5 rounded-lg bg-success-soft px-4 py-3 text-sm text-success">
+                <x-core::ui.icon name="check-circle" class="size-4.5" />
                 {{ session('status') }}
             </div>
         @endif
 
         @if (session('generated_password'))
-            <div class="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                Password sementara: <code class="rounded bg-white px-2 py-0.5 font-mono font-semibold">{{ session('generated_password') }}</code>
-                — catat dan sampaikan sekarang; password ini tidak akan ditampilkan lagi.
+            <div class="mb-4 rounded-lg bg-warning-soft px-4 py-3 text-sm text-warning">
+                Password sementara:
+                <code class="rounded bg-surface px-2 py-0.5 font-mono font-semibold text-ink">{{ session('generated_password') }}</code>
+                — catat dan sampaikan sekarang; tidak akan ditampilkan lagi.
             </div>
         @endif
 
-        <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div class="overflow-hidden rounded-xl bg-surface ring-1 ring-line">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-slate-200 text-sm">
+                <table class="min-w-full text-sm">
                     <thead>
-                        <tr class="bg-navy text-left text-xs font-semibold uppercase tracking-wide text-white">
-                            <th class="px-6 py-3">Nama</th>
-                            <th class="px-6 py-3">Email</th>
-                            <th class="px-6 py-3">Pegawai</th>
-                            <th class="px-6 py-3">Role</th>
-                            <th class="px-6 py-3">Status</th>
-                            <th class="px-6 py-3">Login Terakhir</th>
-                            <th class="px-6 py-3"><span class="sr-only">Aksi</span></th>
+                        <tr class="border-b border-line text-left">
+                            <th class="text-label px-5 py-3 font-semibold normal-case tracking-normal">Pengguna</th>
+                            <th class="text-label px-5 py-3 font-semibold normal-case tracking-normal">Pegawai</th>
+                            <th class="text-label px-5 py-3 font-semibold normal-case tracking-normal">Role</th>
+                            <th class="text-label px-5 py-3 font-semibold normal-case tracking-normal">Status</th>
+                            <th class="text-label px-5 py-3 font-semibold normal-case tracking-normal">Login terakhir</th>
+                            <th class="px-5 py-3"><span class="sr-only">Aksi</span></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100">
+                    <tbody class="divide-y divide-line">
                         @foreach ($users as $user)
-                            <tr class="hover:bg-slate-50 {{ $user->is_active ? '' : 'opacity-60' }}">
-                                <td class="whitespace-nowrap px-6 py-3 font-medium text-slate-800">{{ $user->name }}</td>
-                                <td class="whitespace-nowrap px-6 py-3 text-slate-600">{{ $user->email }}</td>
-                                <td class="whitespace-nowrap px-6 py-3 text-slate-600">
-                                    {{ $user->employee?->name ?? '—' }}
+                            <tr class="transition-colors duration-150 hover:bg-surface-2/60 {{ $user->is_active ? '' : 'opacity-55' }}">
+                                <td class="px-5 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <x-core::ui.avatar :name="$user->name" />
+                                        <div class="min-w-0">
+                                            <p class="truncate font-medium text-ink">{{ $user->name }}</p>
+                                            <p class="truncate text-xs text-ink-3">{{ $user->email }}</p>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-3">
+                                <td class="whitespace-nowrap px-5 py-3 text-ink-2">{{ $user->employee?->name ?? '—' }}</td>
+                                <td class="px-5 py-3">
                                     <div class="flex flex-wrap gap-1.5">
                                         @forelse ($user->roles->unique('id') as $role)
-                                            <span class="rounded-full bg-paljaya-50 px-2.5 py-0.5 text-xs font-medium text-paljaya-700 ring-1 ring-paljaya-200">
-                                                {{ $role->name }}
-                                            </span>
+                                            <span class="rounded-full bg-accent-soft px-2.5 py-0.5 text-xs font-medium text-accent-ink">{{ $role->name }}</span>
                                         @empty
-                                            <span class="text-xs text-slate-400">—</span>
+                                            <span class="text-xs text-ink-3">—</span>
                                         @endforelse
                                     </div>
                                 </td>
-                                <td class="whitespace-nowrap px-6 py-3">
-                                    @if ($user->is_active)
-                                        <span class="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200">Aktif</span>
-                                    @else
-                                        <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-500 ring-1 ring-slate-200">Nonaktif</span>
-                                    @endif
+                                <td class="whitespace-nowrap px-5 py-3">
+                                    <x-core::ui.status :tone="$user->is_active ? 'success' : 'neutral'">
+                                        {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}
+                                    </x-core::ui.status>
                                 </td>
-                                <td class="whitespace-nowrap px-6 py-3 text-slate-500">
+                                <td class="whitespace-nowrap px-5 py-3 text-ink-3">
                                     {{ $user->last_login_at?->format('d M Y H:i') ?? '—' }}
                                 </td>
-                                <td class="whitespace-nowrap px-6 py-3 text-right">
-                                    <div class="flex items-center justify-end gap-2">
+                                <td class="whitespace-nowrap px-5 py-3 text-right">
+                                    <div class="flex items-center justify-end gap-1">
                                         @can('update', $user)
                                             <a href="{{ route('core.admin.users.edit', $user) }}"
-                                               class="rounded-lg px-2.5 py-1.5 text-xs font-semibold text-paljaya-600 hover:bg-paljaya-50">Ubah</a>
+                                               class="focusable rounded-lg px-2.5 py-1.5 text-xs font-semibold text-accent hover:bg-accent-soft">Ubah</a>
                                         @endcan
                                         @can('resetPassword', $user)
                                             <form method="POST" action="{{ route('core.admin.users.reset-password', $user) }}">
                                                 @csrf
-                                                <button type="submit"
-                                                        class="rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100">
-                                                    Reset Password
-                                                </button>
+                                                <button type="submit" class="focusable rounded-lg px-2.5 py-1.5 text-xs font-semibold text-ink-2 hover:bg-surface-2">Reset</button>
                                             </form>
                                         @endcan
                                         @can('toggleActive', $user)
                                             <form method="POST" action="{{ route('core.admin.users.toggle-active', $user) }}">
                                                 @csrf
                                                 <button type="submit"
-                                                        class="rounded-lg px-2.5 py-1.5 text-xs font-semibold {{ $user->is_active ? 'text-red-600 hover:bg-red-50' : 'text-emerald-600 hover:bg-emerald-50' }}">
+                                                        class="focusable rounded-lg px-2.5 py-1.5 text-xs font-semibold {{ $user->is_active ? 'text-danger hover:bg-danger-soft' : 'text-success hover:bg-success-soft' }}">
                                                     {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                                 </button>
                                             </form>
