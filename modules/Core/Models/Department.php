@@ -5,9 +5,12 @@ namespace Modules\Core\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Core\Models\Concerns\Auditable;
 
 class Department extends Model
 {
+    use Auditable;
+
     protected $table = 'core_departments';
 
     protected $fillable = ['division_id', 'code', 'name', 'sort_order', 'is_active'];

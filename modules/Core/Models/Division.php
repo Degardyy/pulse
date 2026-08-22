@@ -5,9 +5,12 @@ namespace Modules\Core\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Core\Models\Concerns\Auditable;
 
 class Division extends Model
 {
+    use Auditable;
+
     public const TYPE_DIVISION = 'division';
 
     /** A unit (e.g. Internal Audit) reports to a director without departments. */

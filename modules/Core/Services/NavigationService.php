@@ -33,13 +33,18 @@ class NavigationService
             ],
         ];
 
+        $admin = [];
+
         if ($user->hasPermission('core.users.view')) {
-            $sections[] = [
-                'label' => 'Administrasi',
-                'items' => [
-                    ['label' => 'Pengguna', 'icon' => 'shield', 'route' => 'core.admin.users.index', 'active' => 'core.admin.users.*', 'keywords' => 'pengguna akun user admin role akses'],
-                ],
-            ];
+            $admin[] = ['label' => 'Pengguna', 'icon' => 'shield', 'route' => 'core.admin.users.index', 'active' => 'core.admin.users.*', 'keywords' => 'pengguna akun user admin role akses'];
+        }
+
+        if ($user->hasPermission('core.audit.view')) {
+            $admin[] = ['label' => 'Audit Trail', 'icon' => 'clock', 'route' => 'core.admin.audit.index', 'active' => 'core.admin.audit.*', 'keywords' => 'audit trail log jejak riwayat perubahan'];
+        }
+
+        if ($admin !== []) {
+            $sections[] = ['label' => 'Administrasi', 'items' => $admin];
         }
 
         return $sections;

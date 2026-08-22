@@ -8,14 +8,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Core\Models\Concerns\Auditable;
 use Modules\Core\Services\Access\AccessService;
 
 class User extends Authenticatable
 {
+    use Auditable;
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     public const PROVIDER_LOCAL = 'local';
+
+    /** @var list<string> Never audited: pure noise (bumped on every login). */
+    protected array $auditExclude = ['last_login_at', 'remember_token'];
+
+    /** @var list<string> Audited as masked value only. */
+    protected array $auditMask = ['password'];
 
     /**
      * The attributes that are mass assignable.

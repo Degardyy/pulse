@@ -40,7 +40,7 @@ class RbacSeeder extends Seeder
         );
 
         $userAdmin->permissions()->sync(
-            Permission::whereIn('code', ['core.users.view', 'core.users.manage'])->pluck('id'),
+            Permission::whereIn('code', ['core.users.view', 'core.users.manage', 'core.audit.view'])->pluck('id'),
         );
     }
 }

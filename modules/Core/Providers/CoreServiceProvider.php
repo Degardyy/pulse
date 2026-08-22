@@ -11,6 +11,7 @@ use Modules\Core\Models\User;
 use Modules\Core\Policies\UserPolicy;
 use Modules\Core\Services\Access\AccessService;
 use Modules\Core\Services\Access\PermissionRegistry;
+use Modules\Core\Services\Audit\AuditService;
 
 class CoreServiceProvider extends ModuleServiceProvider
 {
@@ -19,7 +20,13 @@ class CoreServiceProvider extends ModuleServiceProvider
     protected array $permissions = [
         'core.users.view' => 'Melihat daftar akun pengguna',
         'core.users.manage' => 'Mengelola akun pengguna (buat, ubah, nonaktifkan, reset password, atur role)',
+        'core.audit.view' => 'Melihat audit trail (jejak perubahan data dan aktivitas login)',
     ];
+
+    public function register(): void
+    {
+        $this->app->singleton(AuditService::class);
+    }
 
     protected array $commands = [
         SyncPermissionsCommand::class,

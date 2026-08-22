@@ -4,9 +4,12 @@ namespace Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Core\Models\Concerns\Auditable;
 
 class Directorate extends Model
 {
+    use Auditable;
+
     protected $table = 'core_directorates';
 
     protected $fillable = ['code', 'name', 'sort_order', 'is_active'];

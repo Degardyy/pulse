@@ -4,7 +4,9 @@ namespace Modules\Core\Services;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use Modules\Core\Models\AuditLog;
 use Modules\Core\Models\User;
+use Modules\Core\Services\Audit\AuditService;
 
 /**
  * Account administration (ADR-007; authority: IT department). Initial and
@@ -85,6 +87,11 @@ class UserManagementService
      */
     private function syncGlobalRoles(User $user, array $roleIds): void
     {
+        $before = $user->roles()
+            ->wherePivotNull('division_id')
+            ->wherePivotNull('department_id')
+            ->pluck('code')->sort()->values();
+
         $user->roles()->newPivotStatement()
             ->where('user_id', $user->id)
             ->whereNull('division_id')
@@ -93,6 +100,22 @@ class UserManagementService
 
         foreach (array_unique($roleIds) as $roleId) {
             $user->roles()->attach($roleId);
+        }
+
+        $user->unsetRelation('roles');
+
+        $after = $user->roles()
+            ->wherePivotNull('division_id')
+            ->wherePivotNull('department_id')
+            ->pluck('code')->sort()->values();
+
+        if ($before->all() !== $after->all()) {
+            app(AuditService::class)->record(
+                AuditLog::EVENT_ROLES_SYNCED,
+                $user,
+                ['roles' => $before->all()],
+                ['roles' => $after->all()],
+            );
         }
 
         $user->unsetRelation('roles');

@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Modules\Core\Models\Concerns\Auditable;
 
 class Position extends Model
 {
+    use Auditable;
+
     public const LEVEL_PRESIDENT_DIRECTOR = 'president_director';
 
     public const LEVEL_DIRECTOR = 'director';

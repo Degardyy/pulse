@@ -4,7 +4,9 @@ namespace Modules\Core\Services\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Core\Models\AuditLog;
 use Modules\Core\Models\User;
+use Modules\Core\Services\Audit\AuditService;
 
 /**
  * Single entry point for signing users in and out (ADR-006).
@@ -36,6 +38,10 @@ class AuthenticationService
 
     public function logout(Request $request): void
     {
+        if ($user = Auth::user()) {
+            app(AuditService::class)->record(AuditLog::EVENT_LOGOUT, $user);
+        }
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
@@ -49,5 +55,7 @@ class AuthenticationService
         /** @var User $user */
         $user = Auth::user();
         $user->forceFill(['last_login_at' => now()])->save();
+
+        app(AuditService::class)->record(AuditLog::EVENT_LOGIN, $user);
     }
 }

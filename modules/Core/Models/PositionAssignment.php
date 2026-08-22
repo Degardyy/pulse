@@ -4,9 +4,12 @@ namespace Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Core\Models\Concerns\Auditable;
 
 class PositionAssignment extends Model
 {
+    use Auditable;
+
     protected $table = 'core_position_assignments';
 
     protected $fillable = ['position_id', 'employee_id', 'is_acting', 'started_at', 'ended_at'];

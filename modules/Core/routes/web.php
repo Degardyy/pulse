@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Core\Http\Controllers\Admin\AuditLogController;
 use Modules\Core\Http\Controllers\Admin\UserController;
 use Modules\Core\Http\Controllers\Auth\LoginController;
 use Modules\Core\Http\Controllers\DashboardController;
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('core.dashboard');
     Route::get('/organization', [OrganizationController::class, 'index'])->name('core.organization.index');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('core.employees.index');
+
+    Route::get('/admin/audit', [AuditLogController::class, 'index'])->name('core.admin.audit.index');
 
     Route::prefix('admin/users')->name('core.admin.users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');

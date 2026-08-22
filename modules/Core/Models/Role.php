@@ -4,9 +4,12 @@ namespace Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Core\Models\Concerns\Auditable;
 
 class Role extends Model
 {
+    use Auditable;
+
     public const CODE_ADMINISTRATOR = 'administrator';
 
     public const CODE_USER_ADMINISTRATOR = 'user-administrator';

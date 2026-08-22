@@ -5,9 +5,12 @@ namespace Modules\Core\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Modules\Core\Models\Concerns\Auditable;
 
 class Employee extends Model
 {
+    use Auditable;
+
     protected $table = 'core_employees';
 
     protected $fillable = ['name', 'employee_number', 'email', 'is_active'];

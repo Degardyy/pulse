@@ -25,7 +25,8 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 4. ✅ Role & Permission (ADR-007) — permission deklaratif per modul, grant role
    ber-scope Division/Department, `AccessService` + Gate; User Management oleh
    Department IT (list/create/edit, role, reset password, aktif/nonaktif)
-5. Audit Trail (otomatis untuk semua mutasi penting)
+5. ✅ Audit Trail — trait `Auditable` (otomatis, masked secrets, anti-noise),
+   login/logout + roles_synced, viewer `/admin/audit` ber-permission, append-only
 6. Notification (in-app; channel lain menyusul)
 7. Document (upload, metadata, attach ke entity mana pun)
 8. Workflow (definisi approval berbasis konfigurasi)
