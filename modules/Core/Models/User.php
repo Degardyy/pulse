@@ -88,6 +88,41 @@ class User extends Authenticatable
         return app(AccessService::class)->allows($this, $code, $scope);
     }
 
+    /** @var array{departments: list<int>, divisions: list<int>, division_leads: list<int>}|null */
+    private ?array $cachedUnitIds = null;
+
+    /**
+     * The org units this user belongs to via their employee's active seats:
+     * - departments     → direct department assignments;
+     * - divisions       → all divisions the user is part of (incl. via department);
+     * - division_leads  → divisions where the user holds a division-level seat
+     *                     (used for downward visibility, e.g. documents).
+     *
+     * @return array{departments: list<int>, divisions: list<int>, division_leads: list<int>}
+     */
+    public function organizationUnitIds(): array
+    {
+        if ($this->cachedUnitIds !== null) {
+            return $this->cachedUnitIds;
+        }
+
+        $positions = $this->employee
+            ?->activeAssignments()->with('position.department')->get()
+            ->pluck('position')->filter() ?? collect();
+
+        $departments = $positions->pluck('department_id')->filter()->map(fn ($id) => (int) $id)->unique();
+        $divisionLeads = $positions->pluck('division_id')->filter()->map(fn ($id) => (int) $id)->unique();
+        $divisions = $divisionLeads
+            ->merge($positions->pluck('department.division_id')->filter()->map(fn ($id) => (int) $id))
+            ->unique();
+
+        return $this->cachedUnitIds = [
+            'departments' => $departments->values()->all(),
+            'divisions' => $divisions->values()->all(),
+            'division_leads' => $divisionLeads->values()->all(),
+        ];
+    }
+
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();

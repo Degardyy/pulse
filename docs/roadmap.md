@@ -29,7 +29,9 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
    login/logout + roles_synced, viewer `/admin/audit` ber-permission, append-only
 6. ✅ Notification — in-app (database channel), `Notifier` satu pintu, popover
    topbar + halaman penuh, trigger akun/role/reset; channel lain menyusul
-7. Document (upload, metadata, attach ke entity mana pun)
+7. ✅ Document — lingkup pembaca department/division/seluruh Paljaya
+   (keputusan pemilik produk), storage privat + unduhan ter-otorisasi,
+   notifikasi audiens, izin publikasi org-wide (attach polimorfik menyusul)
 8. Workflow (definisi approval berbasis konfigurasi)
 9. Dashboard & Reporting foundation (widget framework)
 10. AI Foundation *scaffold* (gateway + allowlist registry, tanpa provider dulu)

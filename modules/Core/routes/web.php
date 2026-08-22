@@ -5,6 +5,7 @@ use Modules\Core\Http\Controllers\Admin\AuditLogController;
 use Modules\Core\Http\Controllers\Admin\UserController;
 use Modules\Core\Http\Controllers\Auth\LoginController;
 use Modules\Core\Http\Controllers\DashboardController;
+use Modules\Core\Http\Controllers\DocumentController;
 use Modules\Core\Http\Controllers\EmployeeController;
 use Modules\Core\Http\Controllers\LandingController;
 use Modules\Core\Http\Controllers\NotificationController;
@@ -23,6 +24,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('core.dashboard');
     Route::get('/organization', [OrganizationController::class, 'index'])->name('core.organization.index');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('core.employees.index');
+
+    Route::get('/documents', [DocumentController::class, 'index'])->name('core.documents.index');
+    Route::get('/documents/create', [DocumentController::class, 'create'])->name('core.documents.create');
+    Route::post('/documents', [DocumentController::class, 'store'])->name('core.documents.store');
+    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('core.documents.download');
+    Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('core.documents.destroy');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('core.notifications.index');
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('core.notifications.read-all');
