@@ -7,6 +7,7 @@ use Modules\Core\Http\Controllers\Auth\LoginController;
 use Modules\Core\Http\Controllers\DashboardController;
 use Modules\Core\Http\Controllers\EmployeeController;
 use Modules\Core\Http\Controllers\LandingController;
+use Modules\Core\Http\Controllers\NotificationController;
 use Modules\Core\Http\Controllers\OrganizationController;
 
 Route::get('/', LandingController::class)->name('core.landing');
@@ -22,6 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('core.dashboard');
     Route::get('/organization', [OrganizationController::class, 'index'])->name('core.organization.index');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('core.employees.index');
+
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('core.notifications.index');
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('core.notifications.read-all');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'read'])->name('core.notifications.read');
 
     Route::get('/admin/audit', [AuditLogController::class, 'index'])->name('core.admin.audit.index');
 

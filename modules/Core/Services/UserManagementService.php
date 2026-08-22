@@ -15,6 +15,8 @@ use Modules\Core\Services\Audit\AuditService;
  */
 class UserManagementService
 {
+    public function __construct(private readonly Notifier $notifier) {}
+
     /** @return Collection<int, User> */
     public function listWithDetails(): Collection
     {
@@ -44,6 +46,13 @@ class UserManagementService
 
         $this->syncGlobalRoles($user, $roleIds);
 
+        $this->notifier->send(
+            $user,
+            'Selamat datang di PULSE',
+            'Akun Anda telah dibuat. Ini adalah ruang kerja digital Perumda Paljaya.',
+            route('core.dashboard'),
+        );
+
         return ['user' => $user, 'password' => $password];
     }
 
@@ -68,6 +77,13 @@ class UserManagementService
     {
         $password = Str::password(12);
         $user->update(['password' => $password]);
+
+        $this->notifier->send(
+            $user,
+            'Password akun Anda di-reset',
+            'Administrator me-reset password akun PULSE Anda. Bila ini bukan permintaan Anda, hubungi Department IT.',
+            tone: 'warning',
+        );
 
         return $password;
     }
@@ -115,6 +131,12 @@ class UserManagementService
                 $user,
                 ['roles' => $before->all()],
                 ['roles' => $after->all()],
+            );
+
+            $this->notifier->send(
+                $user,
+                'Akses Anda diperbarui',
+                'Role akun PULSE Anda diubah oleh administrator.',
             );
         }
 

@@ -27,7 +27,8 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
    Department IT (list/create/edit, role, reset password, aktif/nonaktif)
 5. ✅ Audit Trail — trait `Auditable` (otomatis, masked secrets, anti-noise),
    login/logout + roles_synced, viewer `/admin/audit` ber-permission, append-only
-6. Notification (in-app; channel lain menyusul)
+6. ✅ Notification — in-app (database channel), `Notifier` satu pintu, popover
+   topbar + halaman penuh, trigger akun/role/reset; channel lain menyusul
 7. Document (upload, metadata, attach ke entity mana pun)
 8. Workflow (definisi approval berbasis konfigurasi)
 9. Dashboard & Reporting foundation (widget framework)
