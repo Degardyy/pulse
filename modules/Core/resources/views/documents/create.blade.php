@@ -87,13 +87,20 @@
                         </div>
                     @endif
 
-                    <label class="flex items-start gap-3 text-sm {{ $canPublishOrg ? '' : 'opacity-50' }}">
-                        <input type="radio" name="visibility" value="paljaya" x-model="visibility" @disabled(! $canPublishOrg)
+                    @php $orgAllowed = $canPublishOrg || $canRequestOrg; @endphp
+                    <label class="flex items-start gap-3 text-sm {{ $orgAllowed ? '' : 'opacity-50' }}">
+                        <input type="radio" name="visibility" value="paljaya" x-model="visibility" @disabled(! $orgAllowed)
                                class="mt-0.5 size-4 border-line-2 text-accent focus:ring-accent">
                         <span>
                             <span class="font-medium text-ink">Seluruh Paljaya</span>
                             <span class="block text-xs text-ink-3">
-                                Dapat dibaca semua pengguna PULSE{{ $canPublishOrg ? '' : ' — butuh izin publikasi organisasi' }}
+                                @if ($canPublishOrg)
+                                    Dapat dibaca semua pengguna PULSE — terbit langsung
+                                @elseif ($canRequestOrg)
+                                    Dapat dibaca semua pengguna PULSE — melalui persetujuan Corporate Secretary
+                                @else
+                                    Butuh keanggotaan unit atau izin publikasi organisasi
+                                @endif
                             </span>
                         </span>
                     </label>

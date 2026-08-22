@@ -52,6 +52,7 @@ class DocumentController
 
         return view('core::documents.create', [
             'canPublishOrg' => $manage || $user->hasPermission('core.documents.publish-org'),
+            'canRequestOrg' => $units['departments'] !== [] || $units['divisions'] !== [],
             'divisions' => ($manage ? Division::query() : Division::whereIn('id', $units['divisions']))
                 ->where('is_active', true)->orderBy('name')->pluck('name', 'id'),
             'departments' => ($manage ? Department::query() : Department::whereIn('id', $units['departments']))
