@@ -38,7 +38,11 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 9. ✅ Dashboard & Reporting foundation — WidgetRegistry (Beranda + kelak Division
    Portal) dan ReportRegistry (CSV streaming ber-permission); contoh hidup:
    widget Dokumen Terbaru, laporan Pejabat Struktural & Audit Trail
-10. AI Foundation *scaffold* (gateway + allowlist registry, tanpa provider dulu)
+10. ✅ AI Foundation *scaffold* — AiGateway + AiToolRegistry (allowlist eksplisit,
+    otorisasi sebagai user, audit `ai_tool_call`), 4 tool Core nyata; provider
+    LLM menyusul di Stage 9 (open question #7)
+
+**STAGE 2 — PULSE CORE: SELESAI (10/10).** Berikutnya Stage 3 — Division Portal.
 
 > Open questions #1 dan #2 sudah dijawab (lihat `open-questions.md`). Prasyarat iterasi
 > Workflow: open question #4 (contoh SOP approval).

@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Modules\Core\Models\AuditLog;
+use Modules\Core\Models\User;
 
 /**
  * Single writer of the audit trail (append-only). Registered as a singleton so
@@ -16,14 +17,14 @@ class AuditService
 {
     private bool $enabled = true;
 
-    public function record(string $event, ?Model $subject = null, ?array $old = null, ?array $new = null): void
+    public function record(string $event, ?Model $subject = null, ?array $old = null, ?array $new = null, ?User $actor = null): void
     {
         if (! $this->enabled) {
             return;
         }
 
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => $actor?->id ?? Auth::id(),
             'event' => $event,
             'auditable_type' => $subject?->getMorphClass(),
             'auditable_id' => $subject?->getKey(),

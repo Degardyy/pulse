@@ -26,6 +26,8 @@ class AuditLog extends Model
 
     public const EVENT_ROLES_SYNCED = 'roles_synced';
 
+    public const EVENT_AI_TOOL_CALL = 'ai_tool_call';
+
     protected $table = 'core_audit_logs';
 
     protected $guarded = [];

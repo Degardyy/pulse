@@ -17,6 +17,7 @@ use Modules\Core\Policies\DocumentPolicy;
 use Modules\Core\Policies\UserPolicy;
 use Modules\Core\Services\Access\AccessService;
 use Modules\Core\Services\Access\PermissionRegistry;
+use Modules\Core\Services\Ai\AiToolRegistry;
 use Modules\Core\Services\Audit\AuditService;
 use Modules\Core\Services\Dashboard\WidgetRegistry;
 use Modules\Core\Services\Reporting\ReportRegistry;
@@ -38,6 +39,7 @@ class CoreServiceProvider extends ModuleServiceProvider
         $this->app->singleton(AuditService::class);
         $this->app->singleton(WidgetRegistry::class);
         $this->app->singleton(ReportRegistry::class);
+        $this->app->singleton(AiToolRegistry::class);
     }
 
     protected array $commands = [
@@ -57,6 +59,10 @@ class CoreServiceProvider extends ModuleServiceProvider
         CoreDashboardProvider::register(
             $this->app->make(WidgetRegistry::class),
             $this->app->make(ReportRegistry::class),
+        );
+
+        CoreAiToolsProvider::register(
+            $this->app->make(AiToolRegistry::class),
         );
 
         // Route every declared permission code through the AccessService

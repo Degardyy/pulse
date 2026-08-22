@@ -34,6 +34,7 @@ class AuditLogController
                 AuditLog::EVENT_ROLES_SYNCED => 'Role diubah',
                 AuditLog::EVENT_LOGIN => 'Login',
                 AuditLog::EVENT_LOGOUT => 'Logout',
+                AuditLog::EVENT_AI_TOOL_CALL => 'AI tool call',
             ],
         ]);
     }
