@@ -133,6 +133,16 @@
                     </x-core::ui.panel>
                 </section>
 
+                {{-- Registered dashboard widgets (WidgetRegistry) --}}
+                @foreach ($widgets as $widget)
+                    <section aria-label="{{ $widget['title'] }}">
+                        <h2 class="text-label mb-3">{{ $widget['title'] }}</h2>
+                        <x-core::ui.panel>
+                            @include($widget['view'], ['data' => $widget['data']])
+                        </x-core::ui.panel>
+                    </section>
+                @endforeach
+
                 {{-- AI insight --}}
                 <section aria-labelledby="ai-label">
                     <h2 id="ai-label" class="text-label mb-3">Insight AI</h2>

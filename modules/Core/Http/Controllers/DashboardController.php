@@ -5,6 +5,7 @@ namespace Modules\Core\Http\Controllers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
 use Modules\Core\Models\PositionAssignment;
+use Modules\Core\Services\Dashboard\WidgetRegistry;
 use Modules\Core\Services\EmployeeService;
 use Modules\Core\Services\NavigationService;
 use Modules\Core\Services\OrganizationService;
@@ -71,6 +72,7 @@ class DashboardController extends Controller
                 ['icon' => 'building', 'label' => 'Information Technology & Procurement', 'meta' => 'Organisasi'],
             ],
             'aiInsight' => 'Realisasi anggaran department Anda berada di atas tren rata-rata bulanan. Tinjau komitmen infrastruktur sebelum akhir triwulan.',
+            'widgets' => app(WidgetRegistry::class)->forUser($user),
         ]);
     }
 }

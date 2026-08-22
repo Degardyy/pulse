@@ -35,7 +35,9 @@ Urutan sub-modul Core (masing-masing satu iterasi kecil):
 8. ✅ Workflow — engine approval berbasis konfigurasi (ADR-009), approver dibekukan
    per instance, event-driven; use case pertama: publikasi dokumen org-wide via
    persetujuan Corporate Secretary (asumsi — menunggu SOP resmi)
-9. Dashboard & Reporting foundation (widget framework)
+9. ✅ Dashboard & Reporting foundation — WidgetRegistry (Beranda + kelak Division
+   Portal) dan ReportRegistry (CSV streaming ber-permission); contoh hidup:
+   widget Dokumen Terbaru, laporan Pejabat Struktural & Audit Trail
 10. AI Foundation *scaffold* (gateway + allowlist registry, tanpa provider dulu)
 
 > Open questions #1 dan #2 sudah dijawab (lihat `open-questions.md`). Prasyarat iterasi

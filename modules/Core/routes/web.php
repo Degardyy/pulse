@@ -11,6 +11,7 @@ use Modules\Core\Http\Controllers\EmployeeController;
 use Modules\Core\Http\Controllers\LandingController;
 use Modules\Core\Http\Controllers\NotificationController;
 use Modules\Core\Http\Controllers\OrganizationController;
+use Modules\Core\Http\Controllers\ReportController;
 
 Route::get('/', LandingController::class)->name('core.landing');
 
@@ -35,6 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/documents', [DocumentController::class, 'store'])->name('core.documents.store');
     Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('core.documents.download');
     Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('core.documents.destroy');
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('core.reports.index');
+    Route::get('/reports/{key}/download', [ReportController::class, 'download'])->name('core.reports.download');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('core.notifications.index');
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('core.notifications.read-all');
